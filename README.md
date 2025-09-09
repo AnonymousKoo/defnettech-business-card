@@ -21,7 +21,7 @@ Professional digital business card for Sekou Taylor at DefNetTech.
 - AI Digital Marketing
 - Infrastructure Design
 - Architecture Planning
-- Network Expansion
+- Multi-Tenant Business Platform
 
 ### ✅ ASSURE
 - Quality Assurance
