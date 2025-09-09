@@ -149,12 +149,22 @@
             overflow: hidden;
         }
 
-        .save-contact-btn:first-child {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .primary-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+            font-size: 1.1rem !important;
         }
 
-        .save-contact-btn:last-child {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        .secondary-btn {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%) !important;
+            font-size: 0.95rem !important;
+        }
+
+        .primary-btn:hover {
+            box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3) !important;
+        }
+
+        .secondary-btn:hover {
+            box-shadow: 0 10px 20px rgba(108, 117, 125, 0.3) !important;
         }
 
         .save-contact-btn:hover {
@@ -336,11 +346,11 @@
             </a>
             
             <div class="contact-buttons">
-                <button class="save-contact-btn" onclick="saveContact()">
-                    💾 Download vCard
+                <button class="save-contact-btn primary-btn" onclick="addToContacts()">
+                    📱 Save Contact
                 </button>
-                <button class="save-contact-btn" onclick="addToContacts()">
-                    📱 Add to Phone
+                <button class="save-contact-btn secondary-btn" onclick="copyContactInfo()">
+                    📋 Copy Info
                 </button>
             </div>
         </div>
@@ -385,25 +395,18 @@ END:VCARD`;
         }
 
         function addToContacts() {
-            // Try different methods based on device/browser capabilities
+            // Mobile-first approach for contact saving
             
-            // Method 1: Use Contact Picker API (if supported)
-            if ('contacts' in navigator && 'ContactsManager' in window) {
-                // This is experimental and limited support
-                showSuccessMessage('Contact API not fully supported. Try the vCard download instead.');
-                return;
-            }
-            
-            // Method 2: Use Web Share API with contact data (Android/iOS)
+            // Method 1: Web Share API for mobile (iOS/Android)
             if (navigator.share) {
                 const contactData = {
-                    title: 'Sekou Taylor - DefNetTech',
-                    text: 'DefNetTech - Network Solutions & Security\nEmail: services@defnettech.com\nPhone: +1 (772) 204-6950\nWebsite: https://defnettech.com',
+                    title: 'Save Contact: Sekou Taylor - DefNetTech',
+                    text: 'Sekou Taylor\nDefNetTech - Network Solutions & Security\n\n📧 services@defnettech.com\n📞 +1 (772) 204-6950\n🌐 https://defnettech.com\n\nServices: Network Defense, AI Digital Marketing, HIPAA/PCI/SOC2 Compliance',
                     url: 'https://defnettech.com'
                 };
                 
                 navigator.share(contactData)
-                    .then(() => showSuccessMessage('Contact shared successfully!'))
+                    .then(() => showSuccessMessage('Choose where to save contact info!'))
                     .catch(() => {
                         // Fallback to vCard method
                         createAndOpenVCard();
@@ -411,8 +414,38 @@ END:VCARD`;
                 return;
             }
             
-            // Method 3: Create vCard with data URL for mobile browsers
+            // Method 2: vCard with better mobile handling
             createAndOpenVCard();
+        }
+        
+        function copyContactInfo() {
+            const contactText = `Sekou Taylor - DefNetTech
+Network Solutions & Security
+
+📧 Email: services@defnettech.com
+📞 Phone: +1 (772) 204-6950
+🌐 Website: https://defnettech.com
+
+🛡️ Services: Network Defense • AI Digital Marketing • HIPAA/PCI/SOC2 • Infrastructure Design • 24/7 Monitoring`;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(contactText).then(() => {
+                    showSuccessMessage('Contact info copied! You can paste it anywhere.');
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = contactText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showSuccessMessage('Contact info copied! You can paste it anywhere.');
+                } catch (err) {
+                    showSuccessMessage('Please manually copy: services@defnettech.com');
+                }
+                document.body.removeChild(textArea);
+            }
         }
         
         function createAndOpenVCard() {
@@ -424,26 +457,32 @@ TITLE:Network Solutions & Security
 EMAIL:services@defnettech.com
 TEL:+17722046950
 URL:https://defnettech.com
-NOTE:DefNetTech - Defend, Expand, Assure
+NOTE:DefNetTech - Defend Expand Assure - Network Defense AI Digital Marketing HIPAA PCI SOC2
 END:VCARD`;
             
-            // Create data URL
-            const dataUrl = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vCard);
+            // Create blob and download for better mobile compatibility
+            const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
             
-            // Try to open in new window/tab for mobile handling
-            const newWindow = window.open(dataUrl, '_blank');
+            // Create temporary download link
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'sekou-taylor-defnettech.vcf';
+            link.style.display = 'none';
+            document.body.appendChild(link);
             
-            if (!newWindow) {
-                // Fallback: copy to clipboard with instructions
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(vCard).then(() => {
-                        showSuccessMessage('Contact info copied to clipboard! Paste into your contacts app.');
-                    });
-                } else {
-                    showSuccessMessage('Please use the Download vCard button instead.');
-                }
+            // Trigger download
+            link.click();
+            
+            // Clean up
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            
+            // Show helpful message based on device
+            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+                showSuccessMessage('Contact file downloaded! Check your Downloads folder, then open to add to contacts.');
             } else {
-                showSuccessMessage('Contact file opened! Your device should prompt to add to contacts.');
+                showSuccessMessage('vCard downloaded! Open the file to add to your contacts.');
             }
         }
 
