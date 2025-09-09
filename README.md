@@ -9,13 +9,25 @@ Professional digital business card for Sekou Taylor at DefNetTech.
 - 🔒 Network security services showcase
 - ✨ Modern, professional styling
 
-## Services
-- Network Security
-- Cybersecurity Audits
-- Firewall Setup
+## Services - Defend • Expand • Assure
+
+### 🛡️ DEFEND
+- Network Defense & Security
 - Penetration Testing
-- IT Consulting
+- Security Audits
+- Firewall Engineering
+
+### 🚀 EXPAND
+- Network Engineering
+- Infrastructure Design
+- Architecture Planning
+- Network Expansion
+
+### ✅ ASSURE
+- Quality Assurance
 - 24/7 Monitoring
+- Performance Optimization
+- Compliance Testing
 
 ## Contact
 - **Email**: services@defnettech.com
