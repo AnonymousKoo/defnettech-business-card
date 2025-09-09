@@ -128,6 +128,12 @@
             color: #667eea;
         }
 
+        .contact-buttons {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+
         .save-contact-btn {
             width: 100%;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -135,12 +141,20 @@
             border: none;
             padding: 15px 20px;
             border-radius: 10px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+        }
+
+        .save-contact-btn:first-child {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .save-contact-btn:last-child {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
         }
 
         .save-contact-btn:hover {
@@ -321,9 +335,14 @@
                 🚀 Visit Our Website
             </a>
             
-            <button class="save-contact-btn" onclick="saveContact()">
-                💾 Save Contact
-            </button>
+            <div class="contact-buttons">
+                <button class="save-contact-btn" onclick="saveContact()">
+                    💾 Download vCard
+                </button>
+                <button class="save-contact-btn" onclick="addToContacts()">
+                    📱 Add to Phone
+                </button>
+            </div>
         </div>
     </div>
 
@@ -336,14 +355,14 @@
             // Create vCard content
             const vCard = `BEGIN:VCARD
 VERSION:3.0
-FN:DefNetTech
+FN:Sekou Taylor
 ORG:DefNetTech
 TITLE:Network Solutions & Security
 EMAIL:services@defnettech.com
 TEL:+17722046950
 ADR:;;;;;;USA
 URL:https://defnettech.com
-NOTE:Professional network solutions and cybersecurity services
+NOTE:DefNetTech - Defend, Expand, Assure. Network Defense, AI Digital Marketing, HIPAA/PCI/SOC2 Compliance
 END:VCARD`;
 
             // Create blob and download link
@@ -353,7 +372,7 @@ END:VCARD`;
             // Create temporary download link
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'defnettech-contact.vcf';
+            link.download = 'sekou-taylor-defnettech.vcf';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -362,16 +381,80 @@ END:VCARD`;
             window.URL.revokeObjectURL(url);
             
             // Show success message
-            showSuccessMessage();
+            showSuccessMessage('vCard downloaded successfully!');
         }
 
-        function showSuccessMessage() {
+        function addToContacts() {
+            // Try different methods based on device/browser capabilities
+            
+            // Method 1: Use Contact Picker API (if supported)
+            if ('contacts' in navigator && 'ContactsManager' in window) {
+                // This is experimental and limited support
+                showSuccessMessage('Contact API not fully supported. Try the vCard download instead.');
+                return;
+            }
+            
+            // Method 2: Use Web Share API with contact data (Android/iOS)
+            if (navigator.share) {
+                const contactData = {
+                    title: 'Sekou Taylor - DefNetTech',
+                    text: 'DefNetTech - Network Solutions & Security\nEmail: services@defnettech.com\nPhone: +1 (772) 204-6950\nWebsite: https://defnettech.com',
+                    url: 'https://defnettech.com'
+                };
+                
+                navigator.share(contactData)
+                    .then(() => showSuccessMessage('Contact shared successfully!'))
+                    .catch(() => {
+                        // Fallback to vCard method
+                        createAndOpenVCard();
+                    });
+                return;
+            }
+            
+            // Method 3: Create vCard with data URL for mobile browsers
+            createAndOpenVCard();
+        }
+        
+        function createAndOpenVCard() {
+            const vCard = `BEGIN:VCARD
+VERSION:3.0
+FN:Sekou Taylor
+ORG:DefNetTech
+TITLE:Network Solutions & Security
+EMAIL:services@defnettech.com
+TEL:+17722046950
+URL:https://defnettech.com
+NOTE:DefNetTech - Defend, Expand, Assure
+END:VCARD`;
+            
+            // Create data URL
+            const dataUrl = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vCard);
+            
+            // Try to open in new window/tab for mobile handling
+            const newWindow = window.open(dataUrl, '_blank');
+            
+            if (!newWindow) {
+                // Fallback: copy to clipboard with instructions
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(vCard).then(() => {
+                        showSuccessMessage('Contact info copied to clipboard! Paste into your contacts app.');
+                    });
+                } else {
+                    showSuccessMessage('Please use the Download vCard button instead.');
+                }
+            } else {
+                showSuccessMessage('Contact file opened! Your device should prompt to add to contacts.');
+            }
+        }
+
+        function showSuccessMessage(customMessage = 'Contact saved successfully!') {
             const message = document.getElementById('successMessage');
+            message.textContent = customMessage;
             message.classList.add('show');
             
             setTimeout(() => {
                 message.classList.remove('show');
-            }, 3000);
+            }, 4000);
         }
 
         // Add some interactive effects
