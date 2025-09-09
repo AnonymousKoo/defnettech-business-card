@@ -13,12 +13,12 @@ Professional digital business card for Sekou Taylor at DefNetTech.
 
 ### 🛡️ DEFEND
 - Network Defense & Security
-- Penetration Testing
 - Security Audits
 - Firewall Engineering
+- HIPAA, PCI, SOC2 Compliance
 
 ### 🚀 EXPAND
-- Network Engineering
+- AI Digital Marketing
 - Infrastructure Design
 - Architecture Planning
 - Network Expansion
