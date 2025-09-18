@@ -134,7 +134,7 @@
             flex-direction: column;
         }
 
-        .save-contact-btn {
+        .action-btn {
             width: 100%;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -160,16 +160,16 @@
             box-shadow: 0 10px 20px rgba(108, 117, 125, 0.3) !important;
         }
 
-        .save-contact-btn:hover {
+        .action-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
-        .save-contact-btn:active {
+        .action-btn:active {
             transform: translateY(0);
         }
 
-        .save-contact-btn::before {
+        .action-btn::before {
             content: '';
             position: absolute;
             top: 0;
@@ -180,7 +180,7 @@
             transition: left 0.5s;
         }
 
-        .save-contact-btn:hover::before {
+        .action-btn:hover::before {
             left: 100%;
         }
 
@@ -344,7 +344,7 @@
             </a>
             
             <div class="contact-buttons">
-                <button class="save-contact-btn secondary-btn" onclick="copyContactInfo()">
+                <button class="action-btn secondary-btn" onclick="copyContactInfo()">
                     📋 Copy Info
                 </button>
             </div>
