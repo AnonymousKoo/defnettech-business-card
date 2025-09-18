@@ -4,30 +4,20 @@ Professional digital business card for Sekou Taylor at DefNetTech.
 
 ## Features
 - 📱 Mobile-responsive design
-- 💾 vCard download functionality
 - 🔗 Direct contact links (phone, email, website)
 - 🔒 Network security services showcase
 - ✨ Modern, professional styling
 
-## Services - Defend • Expand • Assure
+## Services
 
-### 🛡️ DEFEND
-- Network Defense & Security
-- Security Audits
-- Firewall Engineering
-- HIPAA, PCI, SOC2 Compliance
+- Website & Email Setup
+- Secure Remote Login (VPN)
+- Security Vulnerability Scan + Report
+- Smart IoT Device Installs
+- Client Access Hub
+- Custom SaaS Builds
 
-### 🚀 EXPAND
-- AI Digital Marketing
-- Infrastructure Design
-- Architecture Planning
-- Multi-Tenant Business Platform
-
-### ✅ ASSURE
-- Quality Assurance
-- 24/7 Monitoring
-- Performance Optimization
-- Compliance Testing
+⏱ All services can be done within 24 hours
 
 ## Contact
 - **Email**: services@defnettech.com

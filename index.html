@@ -220,6 +220,14 @@
             border: 1px solid #dee2e6;
         }
 
+        .services-note {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 8px;
+        }
+
         .cta-btn {
             width: 100%;
             background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
@@ -328,13 +336,14 @@
             <div class="services-section">
                 <div class="services-title">🛡️ Our Services</div>
                 <div class="services-list">
-                    <span class="service-tag">🌐 SD-WAN Infrastructure</span>
-                    <span class="service-tag">🤖 AI Digital Marketing</span>
-                    <span class="service-tag">🔐 Zero Trust Design & Architect</span>
-                    <span class="service-tag">🏗️ Custom ERP Build</span>
-                    <span class="service-tag">🔍 Security Compliance Audits</span>
-                    <span class="service-tag">🚀 Custom Multi-tenant SaaS Build</span>
+                    <span class="service-tag">Website &amp; Email Setup</span>
+                    <span class="service-tag">Secure Remote Login (VPN)</span>
+                    <span class="service-tag">Security Vulnerability Scan + Report</span>
+                    <span class="service-tag">Smart IoT Device Installs</span>
+                    <span class="service-tag">Client Access Hub</span>
+                    <span class="service-tag">Custom SaaS Builds</span>
                 </div>
+                <div class="services-note">⏱ All services can be done within 24 hours</div>
             </div>
             
             <a href="https://defnettech.com" class="cta-btn">
@@ -342,9 +351,6 @@
             </a>
             
             <div class="contact-buttons">
-                <button class="save-contact-btn primary-btn" onclick="addToContacts()">
-                    📱 Save Contact
-                </button>
                 <button class="save-contact-btn secondary-btn" onclick="copyContactInfo()">
                     📋 Copy Info
                 </button>
@@ -353,66 +359,11 @@
     </div>
 
     <div class="success-message" id="successMessage">
-        Contact saved successfully!
+        Success!
     </div>
 
     <script>
-        function saveContact() {
-            // Create vCard content
-            const vCard = `BEGIN:VCARD
-VERSION:3.0
-FN:Sekou Taylor
-ORG:DefNetTech
-TITLE:Network Solutions & Security
-EMAIL:services@defnettech.com
-TEL:+17722046950
-ADR:;;;;;;USA
-URL:https://defnettech.com
-NOTE:DefNetTech - Defend, Expand, Assure. Network Defense, AI Digital Marketing, HIPAA/PCI/SOC2 Compliance
-END:VCARD`;
 
-            // Create blob and download link
-            const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
-            const url = window.URL.createObjectURL(blob);
-            
-            // Create temporary download link
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'sekou-taylor-defnettech.vcf';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            // Clean up
-            window.URL.revokeObjectURL(url);
-            
-            // Show success message
-            showSuccessMessage('vCard downloaded successfully!');
-        }
-
-        function addToContacts() {
-            // Mobile-first approach for contact saving
-            
-            // Method 1: Web Share API for mobile (iOS/Android)
-            if (navigator.share) {
-                const contactData = {
-                    title: 'Save Contact: Sekou Taylor - DefNetTech',
-                    text: 'Sekou Taylor\nDefNetTech - Network Solutions & Security\n\n📧 services@defnettech.com\n📞 +1 (772) 204-6950\n🌐 https://defnettech.com\n\nServices: Network Defense, AI Digital Marketing, HIPAA/PCI/SOC2 Compliance',
-                    url: 'https://defnettech.com'
-                };
-                
-                navigator.share(contactData)
-                    .then(() => showSuccessMessage('Choose where to save contact info!'))
-                    .catch(() => {
-                        // Fallback to vCard method
-                        createAndOpenVCard();
-                    });
-                return;
-            }
-            
-            // Method 2: vCard with better mobile handling
-            createAndOpenVCard();
-        }
         
         function copyContactInfo() {
             const contactText = `Sekou Taylor - DefNetTech
@@ -422,7 +373,8 @@ Network Solutions & Security
 📞 Phone: +1 (772) 204-6950
 🌐 Website: https://defnettech.com
 
-🛡️ Services: Network Defense • AI Digital Marketing • HIPAA/PCI/SOC2 • Infrastructure Design • 24/7 Monitoring`;
+🛡️ Services: Website & Email Setup • Secure Remote Login (VPN) • Security Vulnerability Scan + Report • Smart IoT Device Installs • Client Access Hub • Custom SaaS Builds
+⏱ All services can be done within 24 hours`;
             
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(contactText).then(() => {
@@ -444,45 +396,8 @@ Network Solutions & Security
             }
         }
         
-        function createAndOpenVCard() {
-            const vCard = `BEGIN:VCARD
-VERSION:3.0
-FN:Sekou Taylor
-ORG:DefNetTech
-TITLE:Network Solutions & Security
-EMAIL:services@defnettech.com
-TEL:+17722046950
-URL:https://defnettech.com
-NOTE:DefNetTech - Defend Expand Assure - Network Defense AI Digital Marketing HIPAA PCI SOC2
-END:VCARD`;
-            
-            // Create blob and download for better mobile compatibility
-            const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
-            const url = window.URL.createObjectURL(blob);
-            
-            // Create temporary download link
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'sekou-taylor-defnettech.vcf';
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            
-            // Trigger download
-            link.click();
-            
-            // Clean up
-            document.body.removeChild(link);
-            window.URL.revokeObjectURL(url);
-            
-            // Show helpful message based on device
-            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-                showSuccessMessage('Contact file downloaded! Check your Downloads folder, then open to add to contacts.');
-            } else {
-                showSuccessMessage('vCard downloaded! Open the file to add to your contacts.');
-            }
-        }
 
-        function showSuccessMessage(customMessage = 'Contact saved successfully!') {
+function showSuccessMessage(customMessage = 'Success!') {
             const message = document.getElementById('successMessage');
             message.textContent = customMessage;
             message.classList.add('show');
