@@ -323,14 +323,14 @@
             <div class="services-section">
                 <div class="services-title">🛡️ Our Services</div>
                 <div class="services-list">
-                    <span class="service-tag">Website &amp; Email Setup</span>
-                    <span class="service-tag">Secure Remote Login (VPN)</span>
-                    <span class="service-tag">Security Vulnerability Scan + Report</span>
-                    <span class="service-tag">Smart IoT Device Installs</span>
-                    <span class="service-tag">Client Access Hub</span>
-                    <span class="service-tag">Custom SaaS Builds</span>
+                    <span class="service-tag">SD-WAN &amp; LAN Design</span>
+                    <span class="service-tag">Zero-Trust Remote Access (VPN/SSO)</span>
+                    <span class="service-tag">Next-Gen Firewall + IDS/IPS</span>
+                    <span class="service-tag">Security Scan + Fix Report</span>
+                    <span class="service-tag">Wi‑Fi &amp; Smart IoT Deployment</span>
+                    <span class="service-tag">24/7 Monitoring &amp; IR</span>
                 </div>
-                <div class="services-note">⏱ All services can be done within 24 hours</div>
+                <div class="services-note">⏱ Most services completed within 24 hours</div>
             </div>
             
             <a href="https://defnettech.com" class="cta-btn">
@@ -338,6 +338,9 @@
             </a>
             
             <div class="contact-buttons">
+                <button class="action-btn" onclick="createAndDownloadVCard()">
+                    💾 Save Contact (vCard)
+                </button>
                 <button class="action-btn secondary-btn" onclick="copyContactInfo()">
                     📋 Copy Info
                 </button>
@@ -360,8 +363,8 @@ Network Solutions & Security
 📞 Phone: +1 (772) 204-6950
 🌐 Website: https://defnettech.com
 
-🛡️ Services: Website & Email Setup • Secure Remote Login (VPN) • Security Vulnerability Scan + Report • Smart IoT Device Installs • Client Access Hub • Custom SaaS Builds
-⏱ All services can be done within 24 hours`;
+🛡️ Services: SD-WAN & LAN Design • Zero-Trust Remote Access (VPN/SSO) • Next-Gen Firewall + IDS/IPS • Security Scan + Fix Report • Wi‑Fi & Smart IoT Deployment • 24/7 Monitoring & IR
+⏱ Most services completed within 24 hours`
             
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(contactText).then(() => {
@@ -383,6 +386,30 @@ Network Solutions & Security
             }
         }
         
+        
+function createAndDownloadVCard() {
+            const vCard = `BEGIN:VCARD
+VERSION:3.0
+FN:Sekou Taylor
+ORG:DefNetTech
+TITLE:Network Engineering & Security
+EMAIL:services@defnettech.com
+TEL:+17722046950
+URL:https://defnettech.com
+NOTE:SD-WAN & LAN Design; Zero-Trust Remote Access (VPN/SSO); Next-Gen Firewall + IDS/IPS; Security Scan + Fix Report; Wi‑Fi & Smart IoT Deployment; 24/7 Monitoring & Incident Response. Most services completed within 24 hours.
+END:VCARD`;
+            const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'sekou-taylor-defnettech.vcf';
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            showSuccessMessage('vCard downloaded! Open to add to your contacts.');
+        }
 
 function showSuccessMessage(customMessage = 'Success!') {
             const message = document.getElementById('successMessage');
